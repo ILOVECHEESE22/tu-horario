@@ -4,8 +4,8 @@ const calendar = document.getElementById("calendar");
 let currentDate = new Date();
 
 const months = [
-"Enero","Febrero","Marzo","Abril","Mayo","Junio",
-"Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
+    "Enero","Febrero","Marzo","Abril","Mayo","Junio",
+    "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
 ];
 
 function renderCalendar(){
@@ -19,62 +19,63 @@ function renderCalendar(){
 
     const firstDay=new Date(year,month,1);
 
-    let start=(firstDay.getDay()+6)%7;
+    let startDay=(firstDay.getDay()+6)%7;
 
     const daysInMonth=new Date(year,month+1,0).getDate();
 
     const prevMonthDays=new Date(year,month,0).getDate();
 
     // Días del mes anterior
-    for(let i=start-1;i>=0;i--){
+
+    for(let i=startDay-1;i>=0;i--){
 
         createDay(prevMonthDays-i,true);
 
     }
 
     // Días del mes actual
+
     for(let day=1;day<=daysInMonth;day++){
 
         createDay(day,false);
 
     }
 
-    // Completar última fila
+    // Completa la última fila
+
+    let nextDay=1;
+
     while(calendar.children.length%7!==0){
 
-        createDay(calendar.children.length,false,true);
+        createDay(nextDay,true);
+
+        nextDay++;
 
     }
 
 }
 
-function createDay(number,isOther=false,next=false){
+function createDay(number,isOtherMonth){
 
     const div=document.createElement("div");
 
     div.className="day";
 
-    if(isOther){
+    if(isOtherMonth){
 
         div.classList.add("otherMonth");
 
-    }
+    }else{
 
-    if(next){
+        div.onclick=()=>{
 
-        div.classList.add("otherMonth");
+            openDay(number);
 
-        number=calendar.children.length%7+1;
+        };
 
     }
 
     div.textContent=number;
-
-    if(!isOther && !next){
-
-        div.onclick=()=>openDay(number);
-
-    }
 
     calendar.appendChild(div);
 
