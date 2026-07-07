@@ -50,10 +50,16 @@ function openDay(dayNumber){
                 card.innerHTML=`
                     <div class="time">${item.start} - ${item.end}</div>
 
-                    <textarea
-                    placeholder="Escribe aquí..."
-                    class="noteBox"></textarea>
-                `;
+                    const key=`${dayName}-${dayNumber}-${item.id}`;
+
+card.innerHTML=`
+<div class="time">${item.start} - ${item.end}</div>
+
+<textarea
+class="noteBox"
+data-key="${key}"
+placeholder="Escribe aquí...">${Storage.load(key,"")}</textarea>
+`;
 
             }
 
@@ -100,3 +106,18 @@ backButton.onclick=()=>{
     },250);
 
 };
+document.addEventListener("input",(e)=>{
+
+if(e.target.classList.contains("noteBox")){
+
+Storage.save(
+
+e.target.dataset.key,
+
+e.target.value
+
+);
+
+}
+
+});
