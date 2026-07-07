@@ -1,79 +1,102 @@
-#welcomeScreen{
+const curtain = document.getElementById("curtain");
+const dayPage = document.getElementById("dayPage");
+const dayTitle = document.getElementById("dayTitle");
+const scheduleContainer = document.getElementById("scheduleContainer");
+const backButton = document.getElementById("backButton");
 
-position:fixed;
+const days = [
+    "domingo",
+    "lunes",
+    "martes",
+    "miercoles",
+    "jueves",
+    "viernes",
+    "sabado"
+];
 
-inset:0;
+function openDay(dayNumber){
 
-background:#F8F5FF;
+    const selected = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        dayNumber
+    );
 
-display:flex;
+    const dayName = days[selected.getDay()];
 
-justify-content:center;
+    dayTitle.textContent =
+        `${dayNumber} de ${months[currentDate.getMonth()]}`;
 
-align-items:center;
+    scheduleContainer.innerHTML = "";
 
-z-index:500;
+    if(schedule[dayName]){
+
+        schedule[dayName].forEach(item=>{
+
+            const card=document.createElement("div");
+            card.className="card";
+
+            if(item.type==="class"){
+
+                card.innerHTML=`
+                    <div class="time">${item.start} - ${item.end}</div>
+                    <div class="subject">${item.subject}</div>
+                `;
+
+            }
+
+            if(item.type==="break"){
+
+                card.innerHTML=`
+                    <div class="time">${item.start} - ${item.end}</div>
+
+                    <textarea
+                    placeholder="Escribe aquí..."
+                    class="noteBox"></textarea>
+                `;
+
+            }
+
+            if(item.type==="lunch"){
+
+                card.innerHTML=`
+                    <div class="time">${item.start} - ${item.end}</div>
+
+                    <textarea
+                    placeholder="Almuerzo..."
+                    class="noteBox"></textarea>
+                `;
+
+            }
+
+            scheduleContainer.appendChild(card);
+
+        });
+
+    }
+
+    curtain.style.transform="translateY(0)";
+
+    setTimeout(()=>{
+
+        dayPage.style.display="block";
+
+        curtain.style.transform="translateY(-100%)";
+
+    },250);
 
 }
 
-.welcomeCard{
+backButton.onclick=()=>{
 
-background:white;
+    curtain.style.transform="translateY(0)";
 
-padding:35px;
+    setTimeout(()=>{
 
-border-radius:24px;
+        dayPage.style.display="none";
 
-width:320px;
+        curtain.style.transform="translateY(100%)";
 
-text-align:center;
+    },250);
 
-box-shadow:0 10px 35px rgba(0,0,0,.08);
-
-}
-
-.welcomeCard h1{
-
-margin-bottom:10px;
-
-}
-
-.welcomeCard p{
-
-margin-bottom:25px;
-
-color:#666;
-
-}
-
-.userButton{
-
-width:100%;
-
-padding:15px;
-
-margin-top:12px;
-
-border:none;
-
-border-radius:15px;
-
-background:#8B5CF6;
-
-color:white;
-
-font-size:17px;
-
-cursor:pointer;
-
-transition:.2s;
-
-}
-
-.userButton:hover{
-
-transform:scale(1.03);
-
-background:#7B4EE9;
-
-}
+};
