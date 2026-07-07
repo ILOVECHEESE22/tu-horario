@@ -1,114 +1,79 @@
-const curtain = document.getElementById("curtain");
-const dayPage = document.getElementById("dayPage");
-const dayTitle = document.getElementById("dayTitle");
-const scheduleContainer = document.getElementById("scheduleContainer");
+#welcomeScreen{
 
-function openDay(day){
+position:fixed;
 
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
+inset:0;
 
-    const selectedDate = new Date(year, month, day);
+background:#F8F5FF;
 
-    const weekDays = [
-        "domingo",
-        "lunes",
-        "martes",
-        "miercoles",
-        "jueves",
-        "viernes",
-        "sabado"
-    ];
+display:flex;
 
-    const names = [
-        "Domingo",
-        "Lunes",
-        "Martes",
-        "Miércoles",
-        "Jueves",
-        "Viernes",
-        "Sábado"
-    ];
+justify-content:center;
 
-    const weekday = weekDays[selectedDate.getDay()];
+align-items:center;
 
-    dayTitle.textContent =
-        `${names[selectedDate.getDay()]} ${day}`;
-
-    curtain.style.transform="translateY(0%)";
-
-    setTimeout(()=>{
-
-        scheduleContainer.innerHTML="";
-
-        const todaySchedule = schedule[weekday];
-
-        if(todaySchedule){
-
-            todaySchedule.forEach(subject=>{
-
-                if(subject==="BREAK"){
-
-                    scheduleContainer.innerHTML+=`
-                    <input
-                    class="breakInput"
-                    placeholder="Escribe aquí...">
-                    `;
-
-                }
-
-                else if(subject==="ALMUERZO"){
-
-                    scheduleContainer.innerHTML+=`
-                    <input
-                    class="breakInput"
-                    placeholder="Almuerzo...">
-                    `;
-
-                }
-
-                else{
-
-                    scheduleContainer.innerHTML+=`
-                    <div class="lesson">
-                        ${subject}
-                    </div>
-                    `;
-
-                }
-
-            });
-
-        }
-
-        scheduleContainer.innerHTML+=`
-
-        <h3>Notas</h3>
-
-        <textarea
-        class="notes"
-        placeholder="Escribe aquí..."></textarea>
-
-        `;
-
-        dayPage.style.display="block";
-
-        curtain.style.transform="translateY(-100%)";
-
-    },350);
+z-index:500;
 
 }
 
-document.getElementById("backButton").onclick=()=>{
+.welcomeCard{
 
-    curtain.style.transform="translateY(0%)";
+background:white;
 
-    setTimeout(()=>{
+padding:35px;
 
-        dayPage.style.display="none";
+border-radius:24px;
 
-        curtain.style.transform="translateY(100%)";
+width:320px;
 
-    },300);
+text-align:center;
 
-};
+box-shadow:0 10px 35px rgba(0,0,0,.08);
+
+}
+
+.welcomeCard h1{
+
+margin-bottom:10px;
+
+}
+
+.welcomeCard p{
+
+margin-bottom:25px;
+
+color:#666;
+
+}
+
+.userButton{
+
+width:100%;
+
+padding:15px;
+
+margin-top:12px;
+
+border:none;
+
+border-radius:15px;
+
+background:#8B5CF6;
+
+color:white;
+
+font-size:17px;
+
+cursor:pointer;
+
+transition:.2s;
+
+}
+
+.userButton:hover{
+
+transform:scale(1.03);
+
+background:#7B4EE9;
+
+}
