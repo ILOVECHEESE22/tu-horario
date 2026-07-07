@@ -1,1 +1,114 @@
+const curtain = document.getElementById("curtain");
+const dayPage = document.getElementById("dayPage");
+const dayTitle = document.getElementById("dayTitle");
+const scheduleContainer = document.getElementById("scheduleContainer");
 
+function openDay(day){
+
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+
+    const selectedDate = new Date(year, month, day);
+
+    const weekDays = [
+        "domingo",
+        "lunes",
+        "martes",
+        "miercoles",
+        "jueves",
+        "viernes",
+        "sabado"
+    ];
+
+    const names = [
+        "Domingo",
+        "Lunes",
+        "Martes",
+        "Miércoles",
+        "Jueves",
+        "Viernes",
+        "Sábado"
+    ];
+
+    const weekday = weekDays[selectedDate.getDay()];
+
+    dayTitle.textContent =
+        `${names[selectedDate.getDay()]} ${day}`;
+
+    curtain.style.transform="translateY(0%)";
+
+    setTimeout(()=>{
+
+        scheduleContainer.innerHTML="";
+
+        const todaySchedule = schedule[weekday];
+
+        if(todaySchedule){
+
+            todaySchedule.forEach(subject=>{
+
+                if(subject==="BREAK"){
+
+                    scheduleContainer.innerHTML+=`
+                    <input
+                    class="breakInput"
+                    placeholder="Escribe aquí...">
+                    `;
+
+                }
+
+                else if(subject==="ALMUERZO"){
+
+                    scheduleContainer.innerHTML+=`
+                    <input
+                    class="breakInput"
+                    placeholder="Almuerzo...">
+                    `;
+
+                }
+
+                else{
+
+                    scheduleContainer.innerHTML+=`
+                    <div class="lesson">
+                        ${subject}
+                    </div>
+                    `;
+
+                }
+
+            });
+
+        }
+
+        scheduleContainer.innerHTML+=`
+
+        <h3>Notas</h3>
+
+        <textarea
+        class="notes"
+        placeholder="Escribe aquí..."></textarea>
+
+        `;
+
+        dayPage.style.display="block";
+
+        curtain.style.transform="translateY(-100%)";
+
+    },350);
+
+}
+
+document.getElementById("backButton").onclick=()=>{
+
+    curtain.style.transform="translateY(0%)";
+
+    setTimeout(()=>{
+
+        dayPage.style.display="none";
+
+        curtain.style.transform="translateY(100%)";
+
+    },300);
+
+};
