@@ -1,76 +1,114 @@
-<!DOCTYPE html>
-<html lang="es">
+const curtain = document.getElementById("curtain");
+const dayPage = document.getElementById("dayPage");
+const dayTitle = document.getElementById("dayTitle");
+const scheduleContainer = document.getElementById("scheduleContainer");
 
-<head>
+function openDay(day){
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
 
-<title>Calendario</title>
+    const selectedDate = new Date(year, month, day);
 
-<link rel="stylesheet" href="css/style.css">
+    const weekDays = [
+        "domingo",
+        "lunes",
+        "martes",
+        "miercoles",
+        "jueves",
+        "viernes",
+        "sabado"
+    ];
 
-</head>
+    const names = [
+        "Domingo",
+        "Lunes",
+        "Martes",
+        "Miércoles",
+        "Jueves",
+        "Viernes",
+        "Sábado"
+    ];
 
-<body>
+    const weekday = weekDays[selectedDate.getDay()];
 
-<div id="app">
+    dayTitle.textContent =
+        `${names[selectedDate.getDay()]} ${day}`;
 
-<header>
+    curtain.style.transform="translateY(0%)";
 
-<button id="prevMonth">←</button>
+    setTimeout(()=>{
 
-<h1 id="monthTitle"></h1>
+        scheduleContainer.innerHTML="";
 
-<button id="nextMonth">→</button>
+        const todaySchedule = schedule[weekday];
 
-</header>
+        if(todaySchedule){
 
-<div id="weekdays">
+            todaySchedule.forEach(subject=>{
 
-<div>Lun</div>
-<div>Mar</div>
-<div>Mié</div>
-<div>Jue</div>
-<div>Vie</div>
-<div>Sáb</div>
-<div>Dom</div>
+                if(subject==="BREAK"){
 
-</div>
+                    scheduleContainer.innerHTML+=`
+                    <input
+                    class="breakInput"
+                    placeholder="Escribe aquí...">
+                    `;
 
-<div id="calendar"></div>
+                }
 
-<button id="notificationButton">
+                else if(subject==="ALMUERZO"){
 
-🔔
+                    scheduleContainer.innerHTML+=`
+                    <input
+                    class="breakInput"
+                    placeholder="Almuerzo...">
+                    `;
 
-<span id="notificationCount">1</span>
+                }
 
-</button>
+                else{
 
-</div>
+                    scheduleContainer.innerHTML+=`
+                    <div class="lesson">
+                        ${subject}
+                    </div>
+                    `;
 
-<div id="curtain"></div>
+                }
 
-<div id="dayPage">
+            });
 
-<button id="backButton">
+        }
 
-← Calendario
+        scheduleContainer.innerHTML+=`
 
-</button>
+        <h3>Notas</h3>
 
-<h2 id="dayTitle"></h2>
+        <textarea
+        class="notes"
+        placeholder="Escribe aquí..."></textarea>
 
-<div id="scheduleContainer"></div>
+        `;
 
-</div>
+        dayPage.style.display="block";
 
-<script src="js/schedule.js"></script>
-<script src="js/calendar.js"></script>
-<script src="js/notifications.js"></script>
-<script src="js/app.js"></script>
+        curtain.style.transform="translateY(-100%)";
 
-</body>
+    },350);
 
-</html>
+}
+
+document.getElementById("backButton").onclick=()=>{
+
+    curtain.style.transform="translateY(0%)";
+
+    setTimeout(()=>{
+
+        dayPage.style.display="none";
+
+        curtain.style.transform="translateY(100%)";
+
+    },300);
+
+};
